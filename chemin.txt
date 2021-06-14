@@ -1,0 +1,11 @@
+
+
+1- je lance mon printf
+2-je lance une boucle aui putchar en bouclei une pos pour bouger dans format jusaue trouver un %
+3- loraue je le trouve je dois:
+	1- lire tous les flags et les stocker dans dans une t_args
+		->en lisant le fmt
+		->en commencant par la gauche on rempli les differentes option
+			-> ordre : 
+	2- on envoi a une fonction de traitement selon le specifier final;:w
+	
