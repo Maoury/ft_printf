@@ -7,19 +7,6 @@ int	ft_putchar (char c)
 	bytes++;
 	return (bytes);
 }
-
-void	ft_strlen_base(unsigned long long nb, int base)
-{
-	int i;
-	
-	i = 1;
-	while ((unsigned long long)base <= nb)
-	{
-		nb /= base;
-		i++;
-	}
-	return (i);
-}
 void    ft_putnbr_base(int n, int base)
 {
    // long    nb;
@@ -41,63 +28,32 @@ void    ft_putnbr_base(int n, int base)
 // FIN LIBFT FONCTION
 // PRINTF FONCTION
 /******* FONCTION PRINTF POUR THREAT LE SPECIFIER **********/
-int	ft_verif_specifier(char c)
-{
-	//on doit verifier que la lettre appartiennent bien a un specifier de la liste
-	// cspdiuuxX%
-	return (c == 'c' || c == 's' || c == 'p' || c == 'd' || c == 'i' || c == 'u' || c == 'x' || c == 'X' ||c == '%');
-}
-void	ft_int_threat(va_list *ap)
-{	
-	int nb;
 
-	nb = va_arg(*ap, int);
-	ft_putnbr_base(nb, 10);
-}
-
-/*int     ft_pointer_threat(va_list *ap)
-{
-	int bytes;
-
-	bytes = 0;
-	//zebi = va_arg(*ap, unsigned long long);
-	bytes += ft_putnbr_fd(va_arg(*ap, unsigned long long), 16);
-}*/
-/******* FIN PRINTF POUR THREAT LE SPECIFIER **********/
-
-int	ft_threat_first(char specifier, va_list *ap)
-{
-	// parse_options -> t_options;
-	if (ft_verif_specifier(specifier))
-	{
-		if (specifier == 'd' || specifier == 'i')
-			return (ft_int_threat(ap));
-		/*else if (specifier == 'p')
-			return (ft_pointer_threat(ap));
-		else if (specifier == 'c')
-			return (ft_character_threat()*/
-	}
-	else
-		return (0);
-	return (0);
-}
-
-int ft_printf(const char *format, ...)
+int ft_printf(const char *fmt, ...)
  {
 	va_list	*ap;
 	int		bytes;
 	int		pos;
+	t_flags	*flag;
 	pos = -1;
-	va_start(*ap, format);
-	while (format[++pos])
+	va_start(*ap, fmt);
+	while (fmt[++pos])
 	{
-		if (format[pos] == '%' && format[pos++])
+		if (fmt[pos] == '%' && fmt[pos++])
+			{
+				flag = ft_init_t_flags();
+				ft_parse_min_zero((char *)fmt, &pos, flag);
+				ft_parse_width((char *)fmt, &pos, flag);
+				ft_parse_precision_o_star((char *)fmt, &pos, ap, flag);
+				ft_parse_arg_specifier((char *)fmt, &pos, ap, flag);
+			}
 			//fonction qui doit recupÃ©rer la lettre ft_recup_specifier(char *spec, va_list *arg)
 		 // tant que l'on a pas un vrai flag on continue
 	}
 	 va_end(*ap);
-	 return(0);
+	 return(ft_putchar('\0') - 1);
  }
+ /*
  int main()
  {
 	// printf("%%");
@@ -110,3 +66,4 @@ int ft_printf(const char *format, ...)
 	  //printf("retour : %d", ft_putnbr_base(255, 10));
 	//ft_putnbr_base(255, 10);
  }
+******/
